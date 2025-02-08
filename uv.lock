@@ -196,8 +196,6 @@ dependencies = [
     { name = "python-dotenv" },
     { name = "pytz" },
     { name = "pyyaml" },
-    { name = "types-pytz" },
-    { name = "types-pyyaml" },
 ]
 
 [package.dev-dependencies]
@@ -205,6 +203,8 @@ dev = [
     { name = "ipykernel" },
     { name = "mypy" },
     { name = "ruff" },
+    { name = "types-pytz" },
+    { name = "types-pyyaml" },
 ]
 
 [package.metadata]
@@ -216,8 +216,6 @@ requires-dist = [
     { name = "python-dotenv", specifier = ">=1.0.1" },
     { name = "pytz", specifier = ">=2025.1" },
     { name = "pyyaml", specifier = ">=6.0.2" },
-    { name = "types-pytz", specifier = ">=2025.1.0.20250204" },
-    { name = "types-pyyaml", specifier = ">=6.0.12.20241230" },
 ]
 
 [package.metadata.requires-dev]
@@ -225,6 +223,8 @@ dev = [
     { name = "ipykernel", specifier = ">=6.29.5" },
     { name = "mypy", specifier = ">=1.15.0" },
     { name = "ruff", specifier = ">=0.9.5" },
+    { name = "types-pytz", specifier = ">=2025.1.0.20250204" },
+    { name = "types-pyyaml", specifier = ">=6.0.12.20241230" },
 ]
 
 [[package]]
