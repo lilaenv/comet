@@ -1,6 +1,6 @@
 import argparse
 
-from src.comet.util.setup_logger import logging, setup_logger
+from src.comet.utils.setup_logger import logging, setup_logger
 
 
 def parse_args_and_setup_logging() -> logging.Logger:
