@@ -1,4 +1,4 @@
-from src.comet._env import DEFAULT_MODEL
+from src.comet._env import AVAILABLE_MODELS, DEFAULT_MODEL
 
 
 class ModelConfig:
@@ -35,6 +35,17 @@ class ModelConfig:
         self.model = model
         self.temperature = temperature
         self.top_p = top_p
+
+    @property
+    def model(self) -> str:
+        return self._model
+
+    @model.setter
+    def model(self, value: str) -> None:
+        if value not in AVAILABLE_MODELS:
+            msg = "無効なモデルです"
+            raise ValueError(msg)
+        self._model = value
 
     @property
     def temperature(self) -> float:
