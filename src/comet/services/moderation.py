@@ -33,17 +33,18 @@ def get_moderation_result(content: str) -> ModerationDTO:
         If the API response cannot be parsed as JSON
 
     """
-    moderation_result = openai_client.moderations.create(
+    moderation = openai_client.moderations.create(
         model="omni-moderation-latest",
         input=content,
     )
 
-    moderation_str = model_json(moderation_result)
+    moderation_str = model_json(moderation)
 
     try:
         moderation_json = json.loads(moderation_str)
     except json.JSONDecodeError as err:
-        msg = "JSONDecodeError has occurred"
+        msg = f"Failed to parse moderation response: {err!s}"
+        logger.exception(msg)
         raise ValueError(msg) from err
 
     moderation_result = {"id": moderation_json.get("id")}
