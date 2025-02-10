@@ -1,4 +1,5 @@
 import os
+import re
 
 from dotenv import load_dotenv
 
@@ -12,3 +13,9 @@ class SQLiteDbBase:
     # sqlite に関するロジックはこのディレクトリに集約する
     # そのためここで SQLITE_DB_NAME をロードする
     DB_NAME: str = os.environ["SQLITE_DB_NAME"]
+
+    @staticmethod
+    def validate_table_name(table_name: str) -> bool:
+        """Only letters, numbers, and underscores are allowed."""
+        pattern = r"^[A-Za-z0-9_]+$"
+        return bool(re.match(pattern, table_name))
