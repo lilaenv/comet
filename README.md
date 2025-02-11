@@ -93,7 +93,8 @@ Finally, make sure all values in the .env file are filled in correctly, and then
 ```
 python -m src.comet [--log <log_level>]
 ```
-**Note:** The `--log <log_level>` option is optional. If it is not specified, the default log level is `INFO`.
+**Note:** The `--log <log_level>` option is optional. If it is not specified, the default log level is `INFO`. The available log levels are `DEBUG`, `INFO`, `WARNING`, `ERROR`, and `CRITICAL`.
+
 
 ## Commands
 
