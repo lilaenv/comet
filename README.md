@@ -168,3 +168,7 @@ Manage user access permissions by adding or removing the status of permission in
     <td>Implemented</td>
   </tr>
 </table>
+
+## Contributing
+
+If you have discovered a bug or would like to propose a new feature, please refer to [CONTRIBUTING.md](CONTRIBUTING.md) for detailed guidelines. This document outlines how to report issues, suggest enhancements, and contribute to the project effectively.
