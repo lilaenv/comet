@@ -69,6 +69,24 @@ Follow the steps below to set up the application on your local environment.
 
 4. Invite the bot to your guild using the generated url.
 
+### Write a system prompt
+
+> [!IMPORTANT]
+> When using an bot on large-scale or open servers, it is highly recommended to craft a detailed and robust system prompt.
+
+Make a copy of `.prompt.example.yml` and rename it to `.prompt.yml`. Then, edit the `system_prompt` values.
+
+Example:
+
+```yaml
+system_prompt: |
+  You are a helpful assistant that strictly follows the [System Instructions].
+
+  # [System Instructions]
+
+  Detail instructions...
+```
+
 ### Run the bot
 
 Finally, make sure all values in the .env file are filled in correctly, and then execute the following.
