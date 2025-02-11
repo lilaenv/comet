@@ -13,7 +13,6 @@ MAX_CHARS_PER_RESPONSE: int = int(os.environ["MAX_CHARS_PER_RESPONSE"])
 
 # OpenAI Settings
 AVAILABLE_MODELS: list[str] = os.environ["AVAILABLE_MODELS"].split(",")
-DEFAULT_MODEL: str = os.environ["DEFAULT_MODEL"]
 MAX_CONTEXT_WINDOW: int = int(os.environ["MAX_CONTEXT_WINDOW"])
 MAX_TOKENS: int = int(os.environ["MAX_TOKENS"])
 SEPARATOR_TOKEN: str = os.environ["SEPARATOR_TOKEN"]
