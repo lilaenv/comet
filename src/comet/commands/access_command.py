@@ -50,9 +50,9 @@ class AccessRemoveSelector(Select):
     async def callback(self, interaction: Interaction) -> None:
         chosen = self.values[0]  # "advanced" or "blocked"
         if chosen == "advanced":
-            await access_control_dao.delete(user_id=self.user_id, access_type="advanced")
+            await access_control_dao.remove(user_id=self.user_id, access_type="advanced")
         elif chosen == "blocked":
-            await access_control_dao.delete(user_id=self.user_id, access_type="blocked")
+            await access_control_dao.remove(user_id=self.user_id, access_type="blocked")
 
         await interaction.response.send_message(
             f"Access type `{chosen}` has been removed from the user (ID: `{self.user_id}`)",
