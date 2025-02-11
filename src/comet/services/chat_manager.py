@@ -38,7 +38,7 @@ class ChatMessage(BaseModel):
         }
 
     @classmethod
-    def from_discord_message(cls, message: DiscordMessage) -> ChatMessage | None:
+    async def from_discord_message(cls, message: DiscordMessage) -> ChatMessage | None:
         """Convert a DiscordMessage instance to a ChatMessage instance.
 
         Parameters
