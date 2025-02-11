@@ -114,7 +114,7 @@ async def send_completion_result(thread: Thread, result: CompletionResult) -> No
 
     """
     status = result.status
-    if status == CompletionStatus.SUCCESS.value:
+    if status == CompletionStatus.SUCCESS:
         if not result.completion_result:
             await thread.send(
                 embed=Embed(
@@ -126,21 +126,21 @@ async def send_completion_result(thread: Thread, result: CompletionResult) -> No
             shorter_response = split_into_shorter_messages(result.completion_result)
             for res in shorter_response:
                 await thread.send(res)
-    elif status == CompletionStatus.OPENAI_ERROR.value:
+    elif status == CompletionStatus.OPENAI_ERROR:
         await thread.send(
             embed=Embed(
                 description="**An error has occurred while generating the completion.**",
                 color=Colour.red(),
             )
         )
-    elif status == CompletionStatus.UNKNOWN_ERROR.value:
+    elif status == CompletionStatus.UNKNOWN_ERROR:
         await thread.send(
             embed=Embed(
                 description="**An unknown error has occurred.**",
                 color=Colour.red(),
             )
         )
-    elif status == CompletionStatus.MODERATION_FLAGGED.value:
+    elif status == CompletionStatus.MODERATION_FLAGGED:
         await thread.send(
             embed=Embed(
                 description="**The assistant's response was flagged by moderation system.**",
