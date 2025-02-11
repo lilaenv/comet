@@ -9,10 +9,11 @@ from discord import (
     HTTPException,
     Interaction,
     Thread,
+    app_commands,
 )
 from discord import Message as DiscordMessage
 
-from src.comet._env import DEFAULT_MODEL, MAX_CONTEXT_WINDOW
+from src.comet._env import MAX_CONTEXT_WINDOW
 from src.comet.cli import parse_args_and_setup_logging
 from src.comet.client.discord_client import DiscordClient
 from src.comet.config.openai_model import ModelConfig
@@ -41,12 +42,18 @@ model_data = defaultdict()
 @discord_client.tree.command(
     name="chat", description="スレッドを作成し、AIとのチャットを開始します"
 )
+@app_commands.choices(
+    model=[
+        app_commands.Choice(name="gpt-4o-mini", value=100),
+        app_commands.Choice(name="gpt-4o", value=101),
+    ]
+)
 @is_authorized_server()
 @is_not_blocked_user()
 async def chat_command(
     interaction: Interaction,
     prompt: str,
-    model: str = DEFAULT_MODEL,
+    model: app_commands.Choice[int],
     temperature: float | None = 1.0,
     top_p: float | None = 0.5,
 ) -> None:
@@ -72,23 +79,23 @@ async def chat_command(
             description=f"<@{user.id}> initiated the chat!",
             color=Colour.gold(),
         )
-        embed.add_field(name="model", value=model, inline=True)
+        embed.add_field(name="model", value=model.name, inline=True)
         embed.add_field(name="temperature", value=temperature, inline=True)
         embed.add_field(name="top_p", value=top_p, inline=True)
         embed.add_field(name="message", value=prompt)
         # --------------------------------
 
         await interaction.response.send_message(embed=embed)
-        response = await interaction.original_response()
+        original_response = await interaction.original_response()
 
         # create the thread
-        thread = await response.create_thread(
+        thread = await original_response.create_thread(
             name=f"{ACTIVATE_THREAD_PREFIX} {prompt[:30]}",
             auto_archive_duration=60,
             slowmode_delay=1,
         )
         model_data[thread.id] = ModelConfig(
-            model=model,
+            model=model.name,
             temperature=temperature,
             top_p=top_p,
         )
