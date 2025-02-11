@@ -1,4 +1,4 @@
-from src.comet._env import AVAILABLE_MODELS, DEFAULT_MODEL
+from discord import app_commands
 
 
 class ModelConfig:
@@ -6,8 +6,8 @@ class ModelConfig:
 
     Parameters
     ----------
-    model : str
-        The name of the model to be used for chat.
+    model : app_commands.Choice[int]
+        The options of the model to be used for chat.
     temperature : float, optional
         The temperature parameter for sampling, controlling randomness.
         Must be between 0.0 and 1.0. Defaults to 1.0.
@@ -17,8 +17,8 @@ class ModelConfig:
 
     Attributes
     ----------
-    model : str
-        The name of the model.
+    model : app_commands.Choice[int]
+        the options of the model.
     temperature : float
         The temperature parameter for sampling.
     top_p : float
@@ -28,7 +28,7 @@ class ModelConfig:
 
     def __init__(
         self,
-        model: str = DEFAULT_MODEL,
+        model: app_commands.Choice[int],
         temperature: float = 1.0,
         top_p: float = 0.5,
     ):
@@ -37,14 +37,11 @@ class ModelConfig:
         self.top_p = top_p
 
     @property
-    def model(self) -> str:
+    def model(self) -> app_commands.Choice[int]:
         return self._model
 
     @model.setter
-    def model(self, value: str) -> None:
-        if value not in AVAILABLE_MODELS:
-            msg = "無効なモデルです"
-            raise ValueError(msg)
+    def model(self, value: app_commands.Choice[int]) -> None:
         self._model = value
 
     @property
