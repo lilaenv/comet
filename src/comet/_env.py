@@ -16,6 +16,8 @@ AVAILABLE_MODELS: list[str] = os.environ["AVAILABLE_MODELS"].split(",")
 MAX_CONTEXT_WINDOW: int = int(os.environ["MAX_CONTEXT_WINDOW"])
 MAX_TOKENS: int = int(os.environ["MAX_TOKENS"])
 SEPARATOR_TOKEN: str = os.environ["SEPARATOR_TOKEN"]
+TEMPERATURE: float = float(os.environ["TEMPERATURE"])
+TOP_P: float = float(os.environ["TOP_P"])
 
 # system.yml ファイルを読み込む
 with Path(__file__).parent.parent.parent.joinpath(".prompt.yml").open(encoding="utf-8") as f:
