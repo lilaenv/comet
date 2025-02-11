@@ -55,4 +55,8 @@ def get_moderation_result(content: str) -> ModerationDTO:
         moderation_result["category_scores"] = first_result.get("category_scores")
         moderation_result["flagged"] = first_result.get("flagged")
 
-    return ModerationDTO(**moderation_result)
+    return ModerationDTO(
+        moderation_id=moderation_result["id"],
+        category_scores=moderation_result["category_scores"],
+        flagged=moderation_result["flagged"],
+    )
