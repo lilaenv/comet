@@ -3,7 +3,6 @@ import datetime
 import aiosqlite
 
 from src.comet.config.timezone import TIMEZONE
-from src.comet.data.dto.user_dto import UserDTO
 
 from .sqlite_db_base import SQLiteDbBase
 
@@ -32,7 +31,7 @@ class AccessControlDAO(SQLiteDbBase):
         finally:
             await conn.close()
 
-    async def insert(self, user_id: UserDTO, access_type: str) -> None:
+    async def insert(self, user_id: int, access_type: str) -> None:
         conn = await aiosqlite.connect(super().DB_NAME)
         date = datetime.datetime.now(TIMEZONE).date()
         try:
@@ -40,7 +39,7 @@ class AccessControlDAO(SQLiteDbBase):
             INSERT INTO access_control (user_id, access_type, add_date)
             VALUES (?, ?, ?);
             """
-            await conn.execute(query, (user_id.user_id, access_type, date))
+            await conn.execute(query, (user_id, access_type, date))
             await conn.commit()
         finally:
             await conn.close()
@@ -57,14 +56,14 @@ class AccessControlDAO(SQLiteDbBase):
         finally:
             await conn.close()
 
-    async def remove(self, user_id: UserDTO, access_type: str) -> None:
+    async def remove(self, user_id: int, access_type: str) -> None:
         conn = await aiosqlite.connect(super().DB_NAME)
         date = datetime.datetime.now(TIMEZONE).date()
         try:
             query = """
             UPDATE access_control SET rm_date = ? WHERE user_id = ? AND access_type = ?;
             """
-            await conn.execute(query, (date, user_id.user_id, access_type))
+            await conn.execute(query, (date, user_id, access_type))
             await conn.commit()
         finally:
             await conn.close()
