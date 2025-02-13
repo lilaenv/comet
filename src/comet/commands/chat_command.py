@@ -62,6 +62,19 @@ async def chat_command(
         user = interaction.user
         logger.info("%s executed chat command: %s", user, prompt[:20])
 
+        if temperature < 0.0 or temperature > 2.0:  # noqa: PLR2004
+            await interaction.response.send_message(
+                "**temperature**は 0.0 から２.0 の間で設定してください",
+                ephemeral=True,
+            )
+            return
+        if top_p < 0.0 or top_p > 1.0:
+            await interaction.response.send_message(
+                "**top_p**は 0.0 から１.0 の間で設定してください",
+                ephemeral=True,
+            )
+            return
+
         # ------ moderate user's prompt ------
         moderation_result = get_moderation_result(prompt)
         if moderation_result.flagged:
