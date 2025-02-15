@@ -29,8 +29,8 @@ class ModelConfig:
     def __init__(
         self,
         model: app_commands.Choice[int],
-        temperature: float = 1.0,
-        top_p: float = 0.5,
+        temperature: float = 0.2,
+        top_p: float = 0.8,
     ):
         self.model = model
         self.temperature = temperature
@@ -51,7 +51,7 @@ class ModelConfig:
     @temperature.setter
     def temperature(self, value: float) -> None:
         if not (0.0 <= value <= 2.0):  # noqa: PLR2004
-            msg = "`temperature` は 0.0 から 2.0 の間で設定してください"
+            msg = "Invalid temperature value"
             raise ValueError(msg)
         self._temperature = value
 
@@ -62,6 +62,6 @@ class ModelConfig:
     @top_p.setter
     def top_p(self, value: float) -> None:
         if not (0.0 <= value <= 1.0):
-            msg = "`top_p` は 0.0 から 1.0 の間で設定してください"
+            msg = "Invalid top_p value"
             raise ValueError(msg)
         self._top_p = value
