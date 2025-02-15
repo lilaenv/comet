@@ -151,6 +151,12 @@ async def on_message(discord_message: DiscordMessage) -> None:  # noqa: D103
             or discord_message.channel.locked
             or not discord_message.channel.name.startswith(ACTIVATE_THREAD_PREFIX)
         ):
+            await thread.send(
+                embed=Embed(
+                    description="無効なスレッドです",
+                    color=Colour.dark_grey(),
+                ),
+            )
             return
 
         channel = discord_message.channel
