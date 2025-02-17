@@ -16,7 +16,7 @@ from discord import Message as DiscordMessage
 from src.comet._env import MAX_CONTEXT_WINDOW, TEMPERATURE, TOP_P
 from src.comet.cli import parse_args_and_setup_logging
 from src.comet.client.discord_client import DiscordClient
-from src.comet.config.openai_model import ModelConfig
+from src.comet.config.openai_model import OpenAIModelConfig
 from src.comet.data.sqlite.access_control_dao import AccessControlDAO
 from src.comet.services.chat_manager import ChatMessage
 from src.comet.services.completion import *
@@ -36,7 +36,7 @@ BLOCKED_USER_IDS: list[int] = access_control_dao.fetch_user_ids_by_access_type(
     access_type="blocked",
 )
 
-model_data = defaultdict()
+model_data: defaultdict = defaultdict()
 
 
 @discord_client.tree.command(
@@ -48,14 +48,14 @@ model_data = defaultdict()
         app_commands.Choice(name="gpt-4o", value=101),
     ]
 )
-@is_authorized_server()
-@is_not_blocked_user()
+@is_authorized_server()  # type: ignore
+@is_not_blocked_user()  # type: ignore
 async def chat_command(
     interaction: Interaction,
     prompt: str,
     model: app_commands.Choice[int],
-    temperature: float | None = TEMPERATURE,
-    top_p: float | None = TOP_P,
+    temperature: float = TEMPERATURE,
+    top_p: float = TOP_P,
 ) -> None:
     """Create a new thread and start a chat with the assistant."""
     try:
@@ -107,18 +107,18 @@ async def chat_command(
             auto_archive_duration=60,
             slowmode_delay=1,
         )
-        model_data[thread.id] = ModelConfig(
+        model_data[thread.id] = OpenAIModelConfig(
             model=model.name,
             temperature=temperature,
             top_p=top_p,
         )
         async with thread.typing():
             messages = [ChatMessage(role=user.name, content=prompt)]
-            response = await generate_completion_result(
+            response = await generate_completion_result(  # type: ignore
                 prompt=messages,
                 model_tuner=model_data[thread.id],
             )
-        await send_completion_result(
+        await send_completion_result(  # type: ignore
             thread=thread,
             result=response,
         )
@@ -134,7 +134,7 @@ async def chat_command(
 @discord_client.event
 # イベントハンドラ
 # 関数名変えると動かない
-@is_authorized_server()
+@is_authorized_server()  # type: ignore
 async def on_message(discord_message: DiscordMessage) -> None:  # noqa: D103
     try:
         # ignore messages from the bot
@@ -151,7 +151,7 @@ async def on_message(discord_message: DiscordMessage) -> None:  # noqa: D103
             or discord_message.channel.locked
             or not discord_message.channel.name.startswith(ACTIVATE_THREAD_PREFIX)
         ):
-            await thread.send(
+            await discord_message.channel.send(
                 embed=Embed(
                     description="無効なスレッドです",
                     color=Colour.dark_grey(),
@@ -194,11 +194,11 @@ async def on_message(discord_message: DiscordMessage) -> None:  # noqa: D103
 
         # ------ generate the response ------
         async with thread.typing():
-            response = await generate_completion_result(
+            response = await generate_completion_result(  # type: ignore
                 prompt=convo_history,
                 model_tuner=model_data[thread.id],
             )
-        await send_completion_result(thread=thread, result=response)
+        await send_completion_result(thread=thread, result=response)  # type: ignore
     except Exception:
         logger.exception("An error occurred in the on_message event")
 
