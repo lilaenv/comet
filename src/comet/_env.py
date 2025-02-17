@@ -25,8 +25,4 @@ OPENAI_DEFAULT_TOP_P: float = float(os.environ["OPENAI_DEFAULT_TOP_P"])
 # OpenAI gpt model
 GPT_MAX_CONTEXT_WINDOW: int = int(os.environ["GPT_MAX_CONTEXT_WINDOW"])
 GPT_MAX_TOKENS: int = int(os.environ["GPT_MAX_TOKENS"])
-
-# OpenAI omni model
-OMNI_MAX_CONTEXT_WINDOW: int = int(os.environ["OMNI_MAX_CONTEXT_WINDOW"])
-OMNI_MAX_TOKENS: int = int(os.environ["OMNI_MAX_TOKENS"])
 # ------------------------------------
