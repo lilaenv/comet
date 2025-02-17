@@ -55,7 +55,7 @@ model_data: defaultdict = defaultdict()
 )
 @is_authorized_server()  # type: ignore
 @is_not_blocked_user()  # type: ignore
-async def chat_command(
+async def gpt_command(
     interaction: Interaction,
     prompt: str,
     model: app_commands.Choice[int],
