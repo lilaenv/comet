@@ -4,7 +4,7 @@
 [![License: BSD-3-Clause](https://img.shields.io/badge/license-BSD-orange.svg?style=flat)](https://github.com/lilaenv/comet/blob/main/LICENSE)
 ![Supported Python versions](https://img.shields.io/badge/python-3.12-blue.svg?style=flat)
 
-**Comet** は Discord 上で動作する　AI アシスタントです。
+**Comet** は Discord 上で動作する AI アシスタントです。
 
 ## Getting Started
 
