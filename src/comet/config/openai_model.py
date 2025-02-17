@@ -1,8 +1,8 @@
 from discord import app_commands
 
 
-class ModelConfig:
-    """Configuration class for chat models.
+class OpenAIModelConfig:
+    """Configuration class for openai models.
 
     Parameters
     ----------
@@ -10,7 +10,7 @@ class ModelConfig:
         The options of the model to be used for chat.
     temperature : float, optional
         The temperature parameter for sampling, controlling randomness.
-        Must be between 0.0 and 1.0. Defaults to 1.0.
+        Must be between 0.0 and 2.0. Defaults to 1.0.
     top_p : float, optional
         The top-p sampling parameter, controlling diversity. Must be
         between 0.0 and 1.0. Defaults to 0.5.
@@ -50,6 +50,7 @@ class ModelConfig:
 
     @temperature.setter
     def temperature(self, value: float) -> None:
+        # openai-apiのtemperatureは0.0から2.0が有効
         if not (0.0 <= value <= 2.0):  # noqa: PLR2004
             msg = "Invalid temperature value"
             raise ValueError(msg)

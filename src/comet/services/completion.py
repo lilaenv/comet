@@ -25,7 +25,7 @@ from .chat_manager import ChatHistory, ChatMessage, split_into_shorter_messages
 from .moderation import get_moderation_result
 
 if TYPE_CHECKING:
-    from src.comet.config.openai_model import ModelConfig
+    from src.comet.config.openai_model import OpenAIModelConfig
 
 logger = parse_args_and_setup_logging()
 
@@ -46,7 +46,7 @@ class CompletionResult(BaseModel):
 
 
 async def generate_completion_result(
-    prompt: list[ChatMessage], model_tuner: ModelConfig
+    prompt: list[ChatMessage], model_tuner: OpenAIModelConfig
 ) -> CompletionResult:
     """Generate a response from the OpenAI model.
 
@@ -71,7 +71,7 @@ async def generate_completion_result(
         convo = ChatHistory(messages=[*prompt, ChatMessage(role="assistant")]).render_message()
         full_prompt = [{"role": "developer", "content": SYSTEM_PROMPT}, *convo]
         completion = openai_client.chat.completions.create(
-            messages=full_prompt,
+            messages=full_prompt,  # type: ignore
             model=model_tuner.model,
             max_tokens=MAX_TOKENS,
             temperature=model_tuner.temperature,
@@ -81,7 +81,10 @@ async def generate_completion_result(
         completion_result = completion.choices[0].message.content
 
         # ------ moderate the assistant's responses ------
-        moderation_result = get_moderation_result(completion_result)
+        if completion_result is not None:
+            moderation_result = get_moderation_result(completion_result)
+        else:
+            logger.exception("completion_result is empty.")
         await moderation_dao.insert(moderation_result)
         return CompletionResult(
             status=CompletionStatus.SUCCESS, completion_result=completion_result
