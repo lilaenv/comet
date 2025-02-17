@@ -1,6 +1,6 @@
 # Contributing ガイドライン
 
-ソースコードの改良に携わる場合は [DEELOPERS.md](https://github.com/lilaenv/comet/blob/main/DEVELOPERS-JP.md) を参照してください。
+ソースコードの改良に携わる場合は [DEVELOPERS.md](https://github.com/lilaenv/comet/blob/main/docs/DEVELOPERS-JP.md) を参照してください。
 
 この文書は、バグ報告や新機能の提案など、ソースコードに直接言及しない貢献を行う場合のガイドラインです。貢献は Issue を作成することで行うことができます。
 
