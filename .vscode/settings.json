@@ -3,9 +3,7 @@
         "editor.defaultFormatter": "charliermarsh.ruff",
         "editor.formatOnSave": true,
     },
-    // イタリックが許せない人向けの設定
-    /*
-    "editor.semanticTokenColorCustomizations": {
+    "_editor.semanticTokenColorCustomizations": {
         "rules": {
             "function.declaration": {
                 "bold": false
@@ -24,7 +22,7 @@
             }
         }
     },
-    "editor.tokenColorCustomizations": {
+    "_editor.tokenColorCustomizations": {
         "textMateRules": [
             {
                 "scope": [
@@ -54,7 +52,6 @@
             }
         ]
     },
-    */
     "files.exclude": {
         "**/.DS_Store": false,
         "**/.git": false,
