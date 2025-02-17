@@ -1,6 +1,6 @@
 # Contributing Guidelines
 
-If you are interested in improving the source code, please refer to [DEVELOPERS.md](https://github.com/lilaenv/comet/blob/main/DEVELOPERS.md).
+If you are interested in improving the source code, please refer to [DEVELOPERS.md](https://github.com/lilaenv/comet/blob/main//docs/DEVELOPERS.md).
 
 This document provides guidelines for contributions that do not directly involve modifications to the source code, such as bug reports and new feature proposals. Contributions can be made by creating an Issue.
 
