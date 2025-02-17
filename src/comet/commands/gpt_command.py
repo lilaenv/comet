@@ -16,8 +16,8 @@ from discord import Message as DiscordMessage
 from src.comet._env import (
     GPT_MAX_CONTEXT_WINDOW,
     GPT_MAX_TOKENS,
-    TEMPERATURE,
-    TOP_P,
+    OPENAI_DEFAULT_TEMPERATURE,
+    OPENAI_DEFAULT_TOP_P,
 )
 from src.comet.cli import parse_args_and_setup_logging
 from src.comet.client.discord_client import DiscordClient
@@ -59,8 +59,8 @@ async def chat_command(
     interaction: Interaction,
     prompt: str,
     model: app_commands.Choice[int],
-    temperature: float = TEMPERATURE,
-    top_p: float = TOP_P,
+    temperature: float = OPENAI_DEFAULT_TEMPERATURE,
+    top_p: float = OPENAI_DEFAULT_TOP_P,
 ) -> None:
     """Create a new thread and start a chat with the assistant."""
     try:
