@@ -13,10 +13,15 @@ from discord import (
 )
 from discord import Message as DiscordMessage
 
-from src.comet._env import MAX_CONTEXT_WINDOW, TEMPERATURE, TOP_P
+from src.comet._env import (
+    GPT_MAX_CONTEXT_WINDOW,
+    GPT_MAX_TOKENS,
+    OPENAI_DEFAULT_TEMPERATURE,
+    OPENAI_DEFAULT_TOP_P,
+)
 from src.comet.cli import parse_args_and_setup_logging
 from src.comet.client.discord_client import DiscordClient
-from src.comet.config.openai_model import ModelConfig
+from src.comet.config.openai_model import OpenAIModelConfig
 from src.comet.data.sqlite.access_control_dao import AccessControlDAO
 from src.comet.services.chat_manager import ChatMessage
 from src.comet.services.completion import *
@@ -36,11 +41,11 @@ BLOCKED_USER_IDS: list[int] = access_control_dao.fetch_user_ids_by_access_type(
     access_type="blocked",
 )
 
-model_data = defaultdict()
+model_data: defaultdict = defaultdict()
 
 
 @discord_client.tree.command(
-    name="chat", description="スレッドを作成し、AIとのチャットを開始します"
+    name="gpt", description="スレッドを作成し、AIとのチャットを開始します"
 )
 @app_commands.choices(
     model=[
@@ -48,14 +53,14 @@ model_data = defaultdict()
         app_commands.Choice(name="gpt-4o", value=101),
     ]
 )
-@is_authorized_server()
-@is_not_blocked_user()
-async def chat_command(
+@is_authorized_server()  # type: ignore
+@is_not_blocked_user()  # type: ignore
+async def gpt_command(
     interaction: Interaction,
     prompt: str,
     model: app_commands.Choice[int],
-    temperature: float | None = TEMPERATURE,
-    top_p: float | None = TOP_P,
+    temperature: float = OPENAI_DEFAULT_TEMPERATURE,
+    top_p: float = OPENAI_DEFAULT_TOP_P,
 ) -> None:
     """Create a new thread and start a chat with the assistant."""
     try:
@@ -107,18 +112,19 @@ async def chat_command(
             auto_archive_duration=60,
             slowmode_delay=1,
         )
-        model_data[thread.id] = ModelConfig(
+        model_data[thread.id] = OpenAIModelConfig(
             model=model.name,
+            max_tokens=GPT_MAX_TOKENS,
             temperature=temperature,
             top_p=top_p,
         )
         async with thread.typing():
             messages = [ChatMessage(role=user.name, content=prompt)]
-            response = await generate_completion_result(
+            response = await generate_completion_result(  # type: ignore
                 prompt=messages,
                 model_tuner=model_data[thread.id],
             )
-        await send_completion_result(
+        await send_completion_result(  # type: ignore
             thread=thread,
             result=response,
         )
@@ -134,7 +140,7 @@ async def chat_command(
 @discord_client.event
 # イベントハンドラ
 # 関数名変えると動かない
-@is_authorized_server()
+@is_authorized_server()  # type: ignore
 async def on_message(discord_message: DiscordMessage) -> None:  # noqa: D103
     try:
         # ignore messages from the bot
@@ -151,19 +157,13 @@ async def on_message(discord_message: DiscordMessage) -> None:  # noqa: D103
             or discord_message.channel.locked
             or not discord_message.channel.name.startswith(ACTIVATE_THREAD_PREFIX)
         ):
-            await thread.send(
-                embed=Embed(
-                    description="無効なスレッドです",
-                    color=Colour.dark_grey(),
-                ),
-            )
             return
 
         channel = discord_message.channel
         thread = channel
 
         # check if the thread has too many messages
-        if thread.message_count > MAX_CONTEXT_WINDOW:
+        if thread.message_count > GPT_MAX_CONTEXT_WINDOW:
             await thread.send(
                 embed=Embed(
                     description="Context limit reached, closing...",
@@ -187,18 +187,18 @@ async def on_message(discord_message: DiscordMessage) -> None:  # noqa: D103
         # ------ get conversation history ------
         convo_history = [
             await ChatMessage.from_discord_message(message)
-            async for message in thread.history(limit=MAX_CONTEXT_WINDOW)
+            async for message in thread.history(limit=GPT_MAX_CONTEXT_WINDOW)
         ]
         convo_history = [msg for msg in convo_history if msg is not None]
         convo_history.reverse()
 
         # ------ generate the response ------
         async with thread.typing():
-            response = await generate_completion_result(
+            response = await generate_completion_result(  # type: ignore
                 prompt=convo_history,
                 model_tuner=model_data[thread.id],
             )
-        await send_completion_result(thread=thread, result=response)
+        await send_completion_result(thread=thread, result=response)  # type: ignore
     except Exception:
         logger.exception("An error occurred in the on_message event")
 

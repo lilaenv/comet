@@ -3,6 +3,18 @@
         "editor.defaultFormatter": "charliermarsh.ruff",
         "editor.formatOnSave": true,
     },
+    "files.exclude": {
+        "**/.DS_Store": false,
+        "**/.git": false,
+        "**/.hg": false,
+        "**/.svn": false,
+        "**/CVS": false,
+        "**/Thumbs.db": false
+    },
+    "files.insertFinalNewline": true,
+    "files.trimFinalNewlines": true,
+    "files.trimTrailingWhitespace": true,
+    "mypy-type-checker.cwd": "${workspaceFolder}/src",
     "mypy-type-checker.path": [
         "${workspaceFolder}/.venv/bin/mypy"
     ],

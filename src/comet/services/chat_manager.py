@@ -4,7 +4,7 @@ from discord import Message as DiscordMessage
 from discord import MessageType
 from pydantic import BaseModel
 
-from src.comet._env import MAX_CHARS_PER_RESPONSE
+from src.comet._env import BOT_NAME, MAX_CHARS_PER_RESPONSE
 
 
 class ChatMessage(BaseModel):
@@ -33,7 +33,12 @@ class ChatMessage(BaseModel):
 
         """
         return {
-            "role": self.role if self.role in ("developer", "assistant") else "user",
+            # self.role が BOT_NAME に一致する場合は "assistant" を返し、
+            # それ以外で "developer" または "assistant" ならその値を使い、
+            # その他は "user" として扱う
+            "role": "assistant"
+            if self.role == BOT_NAME
+            else (self.role if self.role in ("developer", "assistant") else "user"),
             "content": self.content or "",
         }
 

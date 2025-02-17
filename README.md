@@ -38,10 +38,17 @@ Follow the steps below to set up the application on your local environment.
 
 4. **Setup OpenAI API access**
 
-    Follow the steps below to get your OpenAI API key:
+    Follow the steps below:
     - Create an account on [OpenAI developer platform](https://platform.openai.com/docs/overview).
     - Go to the API keys section of your account settings and generate a new API key.
     - Keep this key safe and add it to your `.env` file under the variable `OPENAI_API_KEY`.
+
+5. **Setup Anthropic API access**
+
+    Follow the steps below:
+    - Login to [Console Account](https://console.anthropic.com/login).
+    - Get the API keys.
+    - Keep this key safe and it to your `.env` file under the variable `ANTHROPIC_API_KEY`.
 
 ### Create and invite Discord application
 
@@ -131,8 +138,13 @@ Use these commands to get help or learn about the application.
         <th>Status</th>
     </tr>
     <tr>
-        <td><code>/chat</code></td>
-        <td>Create thread and start chat with openai model.</td>
+        <td><code>/gpt</code></td>
+        <td>Create thread and start chat with gpt model.</td>
+        <td>Implemented</td>
+    </tr>
+    <tr>
+        <td><code>/claude</code></td>
+        <td>Create thread and start chat with claude model.</td>
         <td>Implemented</td>
     </tr>
     <tr>
