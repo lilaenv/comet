@@ -5,7 +5,7 @@ from collections.abc import Mapping
 from pathlib import Path
 from typing import override
 
-from src.comet._env import SYSTEM_PROMPT
+from src.comet._yml import SYSTEM_PROMPT
 
 
 class SensitiveSystemPromptFilter(logging.Filter):
