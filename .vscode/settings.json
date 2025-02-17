@@ -3,7 +3,7 @@
         "editor.defaultFormatter": "charliermarsh.ruff",
         "editor.formatOnSave": true,
     },
-    /* イタリックが許せない人向けの設定 */
+    // イタリックが許せない人向けの設定
     /*
     "editor.semanticTokenColorCustomizations": {
         "rules": {
