@@ -8,17 +8,22 @@ class OpenAIModelConfig:
     ----------
     model : app_commands.Choice[int]
         The options of the model to be used for chat.
-    temperature : float, optional
+    max_tokens : int
+        The maximum number of tokens that can be generated in the
+        completion. Must be between 0 and 128000.
+    temperature : float
         The temperature parameter for sampling, controlling randomness.
-        Must be between 0.0 and 2.0. Defaults to 1.0.
-    top_p : float, optional
+        Must be between 0.0 and 2.0.
+    top_p : float
         The top-p sampling parameter, controlling diversity. Must be
-        between 0.0 and 1.0. Defaults to 0.5.
+        between 0.0 and 1.0.
 
     Attributes
     ----------
     model : app_commands.Choice[int]
-        the options of the model.
+        The options of the model.
+    max_tokens : int
+        The max_tokens for the chat.
     temperature : float
         The temperature parameter for sampling.
     top_p : float
@@ -29,10 +34,12 @@ class OpenAIModelConfig:
     def __init__(
         self,
         model: app_commands.Choice[int],
-        temperature: float = 0.2,
-        top_p: float = 0.8,
+        max_tokens: int,
+        temperature: float,
+        top_p: float,
     ):
         self.model = model
+        self.max_tokens = max_tokens
         self.temperature = temperature
         self.top_p = top_p
 
@@ -43,6 +50,17 @@ class OpenAIModelConfig:
     @model.setter
     def model(self, value: app_commands.Choice[int]) -> None:
         self._model = value
+
+    @property
+    def max_tokens(self) -> int:
+        return self._max_tokens
+
+    @max_tokens.setter
+    def max_tokens(self, value: int) -> None:
+        if not (0 < value <= 128000):  # noqa: PLR2004
+            msg = "Invalid max_tokens value"
+            raise ValueError(msg)
+        self._max_tokens = value
 
     @property
     def temperature(self) -> float:
