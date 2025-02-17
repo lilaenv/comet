@@ -131,8 +131,13 @@ Use these commands to get help or learn about the application.
         <th>Status</th>
     </tr>
     <tr>
-        <td><code>/chat</code></td>
-        <td>Create thread and start chat with openai model.</td>
+        <td><code>/gpt</code></td>
+        <td>Create thread and start chat with gpt model.</td>
+        <td>Implemented</td>
+    </tr>
+    <tr>
+        <td><code>/claude</code></td>
+        <td>Create thread and start chat with claude model.</td>
         <td>Implemented</td>
     </tr>
     <tr>
