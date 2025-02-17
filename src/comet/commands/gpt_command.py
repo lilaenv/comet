@@ -95,7 +95,7 @@ async def gpt_command(
         # ------ define embed style ------
         embed = Embed(
             description=f"<@{user.id}> initiated the chat!",
-            color=Colour.purple(),
+            color=Colour.gold(),
         )
         embed.add_field(name="model", value=model.name, inline=True)
         embed.add_field(name="temperature", value=temperature, inline=True)
