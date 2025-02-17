@@ -16,8 +16,8 @@ from pydantic import BaseModel
 from src.comet._env import (
     MAX_TOKENS,
     SEPARATOR_TOKEN,
-    SYSTEM_PROMPT,
 )
+from src.comet._yml import SYSTEM_PROMPT
 from src.comet.cli import parse_args_and_setup_logging
 from src.comet.data.sqlite.moderation_dao import ModerationDAO
 

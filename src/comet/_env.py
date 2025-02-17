@@ -1,7 +1,5 @@
 import os
-from pathlib import Path
 
-import yaml
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -18,10 +16,3 @@ MAX_TOKENS: int = int(os.environ["MAX_TOKENS"])
 SEPARATOR_TOKEN: str = os.environ["SEPARATOR_TOKEN"]
 TEMPERATURE: float = float(os.environ["TEMPERATURE"])
 TOP_P: float = float(os.environ["TOP_P"])
-
-# system.yml ファイルを読み込む
-with Path(__file__).parent.parent.parent.joinpath(".prompt.yml").open(encoding="utf-8") as f:
-    config = yaml.safe_load(f)
-
-# YAML 内の system_prompt キーを取得
-SYSTEM_PROMPT: str = config.get("system_prompt")
