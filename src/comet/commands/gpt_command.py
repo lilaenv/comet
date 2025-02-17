@@ -13,7 +13,12 @@ from discord import (
 )
 from discord import Message as DiscordMessage
 
-from src.comet._env import MAX_CONTEXT_WINDOW, TEMPERATURE, TOP_P
+from src.comet._env import (
+    GPT_MAX_CONTEXT_WINDOW,
+    GPT_MAX_TOKENS,
+    TEMPERATURE,
+    TOP_P,
+)
 from src.comet.cli import parse_args_and_setup_logging
 from src.comet.client.discord_client import DiscordClient
 from src.comet.config.openai_model import OpenAIModelConfig
@@ -40,7 +45,7 @@ model_data: defaultdict = defaultdict()
 
 
 @discord_client.tree.command(
-    name="chat", description="スレッドを作成し、AIとのチャットを開始します"
+    name="gpt", description="スレッドを作成し、AIとのチャットを開始します"
 )
 @app_commands.choices(
     model=[
@@ -90,7 +95,7 @@ async def chat_command(
         # ------ define embed style ------
         embed = Embed(
             description=f"<@{user.id}> initiated the chat!",
-            color=Colour.gold(),
+            color=Colour.purple(),
         )
         embed.add_field(name="model", value=model.name, inline=True)
         embed.add_field(name="temperature", value=temperature, inline=True)
@@ -109,6 +114,7 @@ async def chat_command(
         )
         model_data[thread.id] = OpenAIModelConfig(
             model=model.name,
+            max_tokens=GPT_MAX_TOKENS,
             temperature=temperature,
             top_p=top_p,
         )
@@ -151,19 +157,13 @@ async def on_message(discord_message: DiscordMessage) -> None:  # noqa: D103
             or discord_message.channel.locked
             or not discord_message.channel.name.startswith(ACTIVATE_THREAD_PREFIX)
         ):
-            await discord_message.channel.send(
-                embed=Embed(
-                    description="無効なスレッドです",
-                    color=Colour.dark_grey(),
-                ),
-            )
             return
 
         channel = discord_message.channel
         thread = channel
 
         # check if the thread has too many messages
-        if thread.message_count > MAX_CONTEXT_WINDOW:
+        if thread.message_count > GPT_MAX_CONTEXT_WINDOW:
             await thread.send(
                 embed=Embed(
                     description="Context limit reached, closing...",
@@ -187,7 +187,7 @@ async def on_message(discord_message: DiscordMessage) -> None:  # noqa: D103
         # ------ get conversation history ------
         convo_history = [
             await ChatMessage.from_discord_message(message)
-            async for message in thread.history(limit=MAX_CONTEXT_WINDOW)
+            async for message in thread.history(limit=GPT_MAX_CONTEXT_WINDOW)
         ]
         convo_history = [msg for msg in convo_history if msg is not None]
         convo_history.reverse()
