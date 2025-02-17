@@ -50,17 +50,15 @@ async def generate_completion_result(
     ----------
     prompt : list of ChatMessage
         A list of chat messages forming the conversation history.
-    user : Member or User
-        The Discord user or member initiating the request.
     model_tuner : ChatConfig
         Configuration settings for the model, including parameters like
-        temperature and top-p sampling.
+        max_tokens, temperature and top-p sampling.
 
     Returns
     -------
     CompletionResult
-        An object containing the status of the completion, the
-        generated message, and any additional status information.
+        An object containing the status of the completion, and the
+        generated message.
 
     """
     try:
