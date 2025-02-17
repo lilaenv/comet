@@ -13,10 +13,6 @@ from openai import (
 )
 from pydantic import BaseModel
 
-from src.comet._env import (
-    MAX_TOKENS,
-    SEPARATOR_TOKEN,
-)
 from src.comet._yml import SYSTEM_PROMPT
 from src.comet.cli import parse_args_and_setup_logging
 from src.comet.data.sqlite.moderation_dao import ModerationDAO
@@ -73,10 +69,9 @@ async def generate_completion_result(
         completion = openai_client.chat.completions.create(
             messages=full_prompt,  # type: ignore
             model=model_tuner.model,
-            max_tokens=MAX_TOKENS,
+            max_tokens=model_tuner.max_tokens,
             temperature=model_tuner.temperature,
             top_p=model_tuner.top_p,
-            stop=SEPARATOR_TOKEN,
         )
         completion_result = completion.choices[0].message.content
 
