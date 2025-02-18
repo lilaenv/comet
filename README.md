@@ -1,10 +1,12 @@
-# Comet - Your special AI assitant
+# Comet
 
 [![CodeQL](https://github.com/lilaenv/comet/actions/workflows/codeql.yml/badge.svg)](https://github.com/lilaenv/comet/actions/workflows/codeql.yml)
 [![License: BSD-3-Clause](https://img.shields.io/badge/license-BSD-orange.svg?style=flat)](https://github.com/lilaenv/comet/blob/main/LICENSE)
 ![Supported Python versions](https://img.shields.io/badge/python-3.12-blue.svg?style=flat)
 
-**Comet** is your AI assistant that runs in Discord.
+日本語版 README は[こちら](https://github.com/lilaenv/comet/blob/main/README-JP.md)。
+
+**Comet** is your AI assistant that works directly within Discord.
 
 ## Getting Started
 
@@ -38,14 +40,21 @@ Follow the steps below to set up the application on your local environment.
 
 4. **Setup OpenAI API access**
 
-    Follow the steps below to get your OpenAI API key:
+    Follow the steps below:
     - Create an account on [OpenAI developer platform](https://platform.openai.com/docs/overview).
     - Go to the API keys section of your account settings and generate a new API key.
     - Keep this key safe and add it to your `.env` file under the variable `OPENAI_API_KEY`.
 
+5. **Setup Anthropic API access**
+
+    Follow the steps below:
+    - Login to [Console Account](https://console.anthropic.com/login).
+    - Get the API keys.
+    - Keep this key safe and it to your `.env` file under the variable `ANTHROPIC_API_KEY`.
+
 ### Create and invite Discord application
 
-1. Go to [Discord Developer Portal](https://discord.com/developers/bots), create a new discord bot.
+1. Go to [Discord Developer Portal](https://discord.com/developers/bots), create a new discord application.
 
 2. Go to the Bot tab and
    - Click "**Reset Token**" and keep it safe and add it to your `.env` file under the variable `DISCORD_BOT_TOKEN`.
@@ -89,10 +98,11 @@ system_prompt: |
 
 ### Run the bot
 
-Finally, make sure all values in the .env file are filled in correctly, and then execute the following.
+Finally, make sure all values in the .env file and .prompt.yml file are filled in correctly, and then execute the following.
 ```
 python -m src.comet [--log <log_level>]
 ```
+
 **Note:** The `--log <log_level>` option is optional. If it is not specified, the default log level is `INFO`. The available log levels are `DEBUG`, `INFO`, `WARNING`, `ERROR`, and `CRITICAL`.
 
 
@@ -105,70 +115,75 @@ Here are all commands available in Discord. **But some commands require specific
 Use these commands to get help or learn about the application.
 
 <table>
-  <tr>
-    <th>Command</th>
-    <th>Description</th>
-    <th>Status</th>
-  </tr>
-  <tr>
-    <td><code>/help</code></td>
-    <td>Displays the list of available commands.</td>
-    <td>Planned</td>
-  </tr>
-  <tr>
-    <td><code>/info</code></td>
-    <td>Shows information about the application.</td>
-    <td>Planned</td>
-  </tr>
+    <tr>
+        <th>Command</th>
+        <th>Description</th>
+        <th>Status</th>
+    </tr>
+    <tr>
+        <td><code>/help</code></td>
+        <td>Displays the list of available commands</td>
+        <td>Planned</td>
+    </tr>
+    <tr>
+        <td><code>/info</code></td>
+        <td>Shows information about the application</td>
+        <td>Planned</td>
+    </tr>
 </table>
 
 ### Chat Commands
 
 <table>
-  <tr>
-    <th>Command</th>
-    <th>Description</th>
-    <th>Status</th>
-  </tr>
-  <tr>
-    <td><code>/chat</code></td>
-    <td>Create thread and start chat with openai model.</td>
-    <td>Implemented</td>
-  </tr>
-  <tr>
-    <td><code>/limit</code></td>
-    <td>Limit the number of API requests.</td>
-    <td>Planned</td>
-  </tr>
+    <tr>
+        <th>Command</th>
+        <th>Description</th>
+        <th>Status</th>
+    </tr>
+    <tr>
+        <td><code>/gpt</code></td>
+        <td>Create thread and start chat with gpt model</td>
+        <td>Implemented</td>
+    </tr>
+    <tr>
+        <td><code>/claude</code></td>
+        <td>Create thread and start chat with claude model</td>
+        <td>Implemented</td>
+    </tr>
+    <tr>
+        <td><code>/limit</code></td>
+        <td>Limit the number of API requests</td>
+        <td>Planned</td>
+    </tr>
 </table>
 
-### User Management Commands
+### Access Management Commands
 
-Manage user access permissions by adding or removing the status of permission in the database.
+Manage user access permission by adding or removing the status of access_type in the database.
 
 <table>
-  <tr>
-    <th>Command</th>
-    <th>Description</th>
-    <th>Status</th>
-  </tr>
-  <tr>
-    <td><code>/add_access</code></td>
-    <td>Add a access type for a user.</td>
-    <td>Implemented</td>
-  </tr>
-  <tr>
-    <td><code>/check_access</code></td>
-    <td>Check the user's access type.</td>
-    <td>Implemented</td>
-  </tr>
-  <tr>
-    <td><code>/rm_access</code></td>
-    <td>Remove a access type from a user.</td>
-    <td>Implemented</td>
-  </tr>
+    <tr>
+        <th>Command</th>
+        <th>Description</th>
+        <th>Status</th>
+    </tr>
+    <tr>
+        <td><code>/add_access</code></td>
+        <td>Add a access type for a user</td>
+        <td>Implemented</td>
+    </tr>
+    <tr>
+        <td><code>/check_access</code></td>
+        <td>Check the user's access type</td>
+        <td>Implemented</td>
+    </tr>
+    <tr>
+        <td><code>/rm_access</code></td>
+        <td>Remove a access type from a user</td>
+        <td>Implemented</td>
+    </tr>
 </table>
 
 ## Contributing
 
-If you have discovered a bug or would like to propose a new feature, please refer to [CONTRIBUTING.md](CONTRIBUTING.md) for detailed guidelines. This document outlines how to report issues, suggest enhancements, and contribute to the project effectively.
+If you have discovered a bug or would like to propose a new feature, please refer to [CONTRIBUTING.md](https://github.com/lilaenv/comet/blob/main/CONTRIBUTING.md) for detailed guidelines. This document outlines how to report issues, suggest enhancements, and contribute to the project effectively.

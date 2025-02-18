@@ -1,8 +1,8 @@
 from discord import app_commands
 
 
-class OpenAIModelConfig:
-    """Configuration class for openai models.
+class AnthropicModelConfig:
+    """Configuration class for anthropic models.
 
     Parameters
     ----------
@@ -10,10 +10,10 @@ class OpenAIModelConfig:
         The options of the model to be used for chat.
     max_tokens : int
         The maximum number of tokens that can be generated in the
-        completion. Must be between 0 and 128000.
+        completion. Must be between 0 and 200000.
     temperature : float
         The temperature parameter for sampling, controlling randomness.
-        Must be between 0.0 and 2.0.
+        Must be between 0.0 and 1.0.
     top_p : float
         The top-p sampling parameter, controlling diversity. Must be
         between 0.0 and 1.0.
@@ -21,7 +21,7 @@ class OpenAIModelConfig:
     Attributes
     ----------
     model : app_commands.Choice[int]
-        The options of the model.
+        the options of the model.
     max_tokens : int
         The max_tokens for the chat.
     temperature : float
@@ -57,7 +57,7 @@ class OpenAIModelConfig:
 
     @max_tokens.setter
     def max_tokens(self, value: int) -> None:
-        if not (0 < value <= 128000):  # noqa: PLR2004
+        if not (0 < value <= 200000):  # noqa: PLR2004
             msg = "Invalid max_tokens value"
             raise ValueError(msg)
         self._max_tokens = value
@@ -68,8 +68,8 @@ class OpenAIModelConfig:
 
     @temperature.setter
     def temperature(self, value: float) -> None:
-        # openai-apiのtemperatureは0.0から2.0が有効
-        if not (0.0 <= value <= 2.0):  # noqa: PLR2004
+        # anthropic-apiのtemperatureは0.0から1.0が有効
+        if not (0.0 <= value <= 1.0):
             msg = "Invalid temperature value"
             raise ValueError(msg)
         self._temperature = value
