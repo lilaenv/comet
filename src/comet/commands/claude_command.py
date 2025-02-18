@@ -29,7 +29,7 @@ logger = parse_args_and_setup_logging()
 access_control_dao = AccessControlDAO()
 discord_client = DiscordClient.get_instance()
 
-ACTIVATE_THREAD_PREFIX: Literal[">>>"] = ">>>"
+CLAUDE_THREAD_PREFIX: Literal["c:"] = "c:"
 ADVANCED_USER_IDS: list[int] = access_control_dao.fetch_user_ids_by_access_type(
     access_type="advanced",
 )
@@ -93,7 +93,7 @@ async def claude_command(
 
         # create the thread
         thread = await original_response.create_thread(
-            name=f"{ACTIVATE_THREAD_PREFIX} {prompt[:30]}",
+            name=f"{CLAUDE_THREAD_PREFIX} {prompt[:30]}",
             auto_archive_duration=60,
             slowmode_delay=1,
         )
