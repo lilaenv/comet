@@ -15,6 +15,7 @@ from src.comet._env import (
     ANTHROPIC_DEFAULT_TOP_P,
     ANTHROPIC_MAX_TOKENS,
 )
+from src.comet._yml import CLAUDE_SYSTEM
 from src.comet.cli import parse_args_and_setup_logging
 from src.comet.client.discord_client import DiscordClient
 from src.comet.config.anthropic_model import AnthropicModelConfig
@@ -51,10 +52,11 @@ model_data: dict = {}
 @is_authorized_server()  # type: ignore
 @is_advanced_user()  # type: ignore
 @is_not_blocked_user()  # type: ignore
-async def claude_command(
+async def claude_command(  # noqa: PLR0913
     interaction: Interaction,
     prompt: str,
     model: app_commands.Choice[int],
+    sys_prompt: str = CLAUDE_SYSTEM,
     temperature: float = ANTHROPIC_DEFAULT_TEMPERATURE,
     top_p: float = ANTHROPIC_DEFAULT_TOP_P,
 ) -> None:
@@ -105,6 +107,7 @@ async def claude_command(
         async with thread.typing():
             messages = [ChatMessage(role=user.name, content=prompt)]
             response = await generate_anthropic_response(  # type: ignore
+                sys_prompt=sys_prompt,
                 prompt=messages,
                 model_tuner=model_data[thread.id],
             )
