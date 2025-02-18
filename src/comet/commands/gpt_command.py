@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-from collections import defaultdict
 from typing import Literal
 
 from discord import (
@@ -38,7 +37,7 @@ BLOCKED_USER_IDS: list[int] = access_control_dao.fetch_user_ids_by_access_type(
     access_type="blocked",
 )
 
-model_data: defaultdict = defaultdict()
+model_data: dict = {}
 
 
 @discord_client.tree.command(
