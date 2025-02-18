@@ -14,6 +14,7 @@ from src.comet._env import (
     GPT_MAX_TOKENS,
     OPENAI_DEFAULT_TEMPERATURE,
     OPENAI_DEFAULT_TOP_P,
+    gpt_choices,
 )
 from src.comet.cli import parse_args_and_setup_logging
 from src.comet.client.discord_client import DiscordClient
@@ -44,12 +45,7 @@ model_data = ModelDataStore()
 @discord_client.tree.command(
     name="gpt", description="スレッドを作成し、AIとのチャットを開始します"
 )
-@app_commands.choices(
-    model=[
-        app_commands.Choice(name="gpt-4o-mini", value=100),
-        app_commands.Choice(name="gpt-4o", value=101),
-    ]
-)
+@app_commands.choices(model=gpt_choices)
 @is_authorized_server()  # type: ignore
 @is_not_blocked_user()  # type: ignore
 async def gpt_command(

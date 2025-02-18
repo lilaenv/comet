@@ -14,6 +14,7 @@ from src.comet._env import (
     ANTHROPIC_DEFAULT_TEMPERATURE,
     ANTHROPIC_DEFAULT_TOP_P,
     ANTHROPIC_MAX_TOKENS,
+    claude_choices,
 )
 from src.comet._yml import CLAUDE_SYSTEM
 from src.comet.cli import parse_args_and_setup_logging
@@ -45,12 +46,7 @@ sys_prompts: dict[int, str] = {}
 @discord_client.tree.command(
     name="claude", description="スレッドを作成し、AIとのチャットを開始します"
 )
-@app_commands.choices(
-    model=[
-        app_commands.Choice(name="claude-3-5-haiku-20241022", value=500),
-        app_commands.Choice(name="claude-3-5-sonnet-20241022", value=501),
-    ]
-)
+@app_commands.choices(model=claude_choices)
 @is_authorized_server()  # type: ignore
 @is_advanced_user()  # type: ignore
 @is_not_blocked_user()  # type: ignore
