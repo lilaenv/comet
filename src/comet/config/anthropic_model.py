@@ -68,8 +68,8 @@ class AnthropicModelConfig:
 
     @temperature.setter
     def temperature(self, value: float) -> None:
-        # anthropic-apiのtemperatureは0.0から2.0が有効
-        if not (0.0 <= value <= 2.0):  # noqa: PLR2004
+        # anthropic-apiのtemperatureは0.0から1.0が有効
+        if not (0.0 <= value <= 1.0):
             msg = "Invalid temperature value"
             raise ValueError(msg)
         self._temperature = value
