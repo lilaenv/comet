@@ -23,6 +23,7 @@ from src.comet.services.chat_manager import ChatMessage
 from src.comet.services.completion import *
 from src.comet.services.moderation import get_moderation_result
 from src.comet.utils.access_control import *
+from src.comet.utils.model_data_store import ModelDataStore
 
 logger = parse_args_and_setup_logging()
 
@@ -37,7 +38,7 @@ BLOCKED_USER_IDS: list[int] = access_control_dao.fetch_user_ids_by_access_type(
     access_type="blocked",
 )
 
-model_data: dict = {}
+model_data = ModelDataStore()
 
 
 @discord_client.tree.command(
@@ -108,17 +109,20 @@ async def gpt_command(
             auto_archive_duration=60,
             slowmode_delay=1,
         )
-        model_data[thread.id] = OpenAIModelConfig(
-            model=model.name,
-            max_tokens=GPT_MAX_TOKENS,
-            temperature=temperature,
-            top_p=top_p,
+        model_data.set_model_config(
+            thread.id,
+            OpenAIModelConfig(
+                model=model.name,
+                max_tokens=GPT_MAX_TOKENS,
+                temperature=temperature,
+                top_p=top_p,
+            ),
         )
         async with thread.typing():
             messages = [ChatMessage(role=user.name, content=prompt)]
             response = await generate_completion_result(  # type: ignore
                 prompt=messages,
-                model_tuner=model_data[thread.id],
+                model_tuner=model_data.get_model_config(thread.id),
             )
         await send_completion_result(  # type: ignore
             thread=thread,

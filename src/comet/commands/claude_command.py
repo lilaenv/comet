@@ -23,6 +23,7 @@ from src.comet.data.sqlite.access_control_dao import AccessControlDAO
 from src.comet.services.anthropic import *
 from src.comet.services.chat_manager import ChatMessage
 from src.comet.utils.access_control import *
+from src.comet.utils.model_data_store import ModelDataStore
 
 logger = parse_args_and_setup_logging()
 
@@ -37,7 +38,8 @@ BLOCKED_USER_IDS: list[int] = access_control_dao.fetch_user_ids_by_access_type(
     access_type="blocked",
 )
 
-model_data: dict = {}
+model_data = ModelDataStore()
+sys_prompts: dict[int, str] = {}
 
 
 @discord_client.tree.command(
@@ -98,18 +100,22 @@ async def claude_command(  # noqa: PLR0913
             auto_archive_duration=60,
             slowmode_delay=1,
         )
-        model_data[thread.id] = AnthropicModelConfig(
-            model=model.name,
-            max_tokens=ANTHROPIC_MAX_TOKENS,
-            temperature=temperature,
-            top_p=top_p,
+        sys_prompts[thread.id] = sys_prompt
+        model_data.set_model_config(
+            thread.id,
+            AnthropicModelConfig(
+                model=model.name,
+                max_tokens=ANTHROPIC_MAX_TOKENS,
+                temperature=temperature,
+                top_p=top_p,
+            ),
         )
         async with thread.typing():
             messages = [ChatMessage(role=user.name, content=prompt)]
             response = await generate_anthropic_response(  # type: ignore
                 sys_prompt=sys_prompt,
                 prompt=messages,
-                model_tuner=model_data[thread.id],
+                model_tuner=model_data.get_model_config(thread.id),
             )
         await send_anthropic_result(  # type: ignore
             thread=thread,
