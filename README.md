@@ -186,4 +186,4 @@ Manage user access permission by adding or removing the status of access_type in
 
 ## Contributing
 
-If you have discovered a bug or would like to propose a new feature, please refer to [CONTRIBUTING.md](https://github.com/lilaenv/comet/blob/main/CONTRIBUTING.md) for detailed guidelines. This document outlines how to report issues, suggest enhancements, and contribute to the project effectively.
+If you have discovered a bug or would like to propose a new feature, please refer to [CONTRIBUTING.md](https://github.com/lilaenv/comet/blob/main/docs/CONTRIBUTING.md) for detailed guidelines. This document outlines how to report issues, suggest enhancements, and contribute to the project effectively.
