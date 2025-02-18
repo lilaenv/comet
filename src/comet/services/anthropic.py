@@ -9,7 +9,6 @@ from anthropic import (
 from discord import Colour, Embed, Thread
 from pydantic import BaseModel
 
-from src.comet._yml import SYSTEM_PROMPT
 from src.comet.cli import parse_args_and_setup_logging
 
 from .chat_manager import ChatHistory, ChatMessage, split_into_shorter_messages
@@ -34,12 +33,15 @@ class AnthropicResult(BaseModel):
 
 
 async def generate_anthropic_response(
-    prompt: list[ChatMessage], model_tuner: AnthropicModelConfig
+    sys_prompt: str, prompt: list[ChatMessage], model_tuner: AnthropicModelConfig
 ) -> AnthropicResult:
     """Generate a response from the Anthropic model.
 
     Parameters
     ----------
+    sys_prompt : str
+        The system instruction.
+
     prompt : list of ChatMessage
         A list of chat messages forming the conversation history.
 
@@ -60,7 +62,7 @@ async def generate_anthropic_response(
             messages=convo,  # type: ignore
             model=model_tuner.model,
             max_tokens=model_tuner.max_tokens,
-            system=SYSTEM_PROMPT,
+            system=sys_prompt,
             temperature=model_tuner.temperature,
             top_p=model_tuner.top_p,
         )
