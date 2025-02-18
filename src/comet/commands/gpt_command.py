@@ -8,13 +8,10 @@ from discord import (
     Embed,
     HTTPException,
     Interaction,
-    Thread,
     app_commands,
 )
-from discord import Message as DiscordMessage
 
 from src.comet._env import (
-    GPT_MAX_CONTEXT_WINDOW,
     GPT_MAX_TOKENS,
     OPENAI_DEFAULT_TEMPERATURE,
     OPENAI_DEFAULT_TOP_P,
@@ -65,7 +62,7 @@ async def gpt_command(
     """Create a new thread and start a chat with the assistant."""
     try:
         user = interaction.user
-        logger.info("%s executed chat command: %s", user, prompt[:20])
+        logger.info("%s executed gpt command: %s", user, prompt[:20])
 
         if temperature < 0.0 or temperature > 2.0:  # noqa: PLR2004
             await interaction.response.send_message(
@@ -135,72 +132,6 @@ async def gpt_command(
         logger.exception("HTTPException occurred in the chat command")
     except Exception:
         logger.exception("An error occurred in the chat command")
-
-
-@discord_client.event
-# イベントハンドラ
-# 関数名変えると動かない
-@is_authorized_server()  # type: ignore
-async def on_message(discord_message: DiscordMessage) -> None:  # noqa: D103
-    try:
-        # ignore messages from the bot
-        # blocked user can't use the bot
-        # ignore messages not in a thread
-        # ignore threads not created by the bot
-        # ignore threads that are archived, locked or title is not what we expected
-        # ignore threads that have too many messages
-        if (
-            discord_message.author == discord_client.user
-            or not isinstance(discord_message.channel, Thread)
-            or discord_message.channel.owner_id != discord_client.user.id
-            or discord_message.channel.archived
-            or discord_message.channel.locked
-            or not discord_message.channel.name.startswith(ACTIVATE_THREAD_PREFIX)
-        ):
-            return
-
-        channel = discord_message.channel
-        thread = channel
-
-        # check if the thread has too many messages
-        if thread.message_count > GPT_MAX_CONTEXT_WINDOW:
-            await thread.send(
-                embed=Embed(
-                    description="Context limit reached, closing...",
-                    color=Colour.light_grey(),
-                )
-            )
-            await thread.edit(archived=False, locked=True)
-            return
-
-        # ------ moderate user's message ------
-        moderation_result = get_moderation_result(discord_message.content)
-        if moderation_result.flagged:
-            await discord_message.channel.send(
-                embed=Embed(
-                    description="**Your prompt was flagged by moderation system**",
-                    color=Colour.red(),
-                )
-            )
-            return
-
-        # ------ get conversation history ------
-        convo_history = [
-            await ChatMessage.from_discord_message(message)
-            async for message in thread.history(limit=GPT_MAX_CONTEXT_WINDOW)
-        ]
-        convo_history = [msg for msg in convo_history if msg is not None]
-        convo_history.reverse()
-
-        # ------ generate the response ------
-        async with thread.typing():
-            response = await generate_completion_result(  # type: ignore
-                prompt=convo_history,
-                model_tuner=model_data[thread.id],
-            )
-        await send_completion_result(thread=thread, result=response)  # type: ignore
-    except Exception:
-        logger.exception("An error occurred in the on_message event")
 
 
 @discord_client.tree.error
