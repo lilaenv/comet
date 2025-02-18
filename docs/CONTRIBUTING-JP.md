@@ -15,5 +15,5 @@
 
 - ドキュメントの改善
 
-上記以外の Issue も受け付けています。上記以外の Issue は[Blank issue](https://github.com/lilaenv/comet/issues/new?template=Blank+issue) で作成してください。
+上記以外の Issue も受け付けています。上記以外の Issue は[ Blank issue](https://github.com/lilaenv/comet/issues/new?template=Blank+issue) で作成してください。
 新しいテンプレートのアイデアもこちらで募集しています。

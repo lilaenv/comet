@@ -74,7 +74,7 @@
     - Read Message History
     - Use Slash Commands
 
-4. 生成された URL でサーバーに bot を招待します。
+4. 生成された URL で bot をサーバーに招待します。
 
 ### システムプロンプトを書く
 
@@ -183,4 +183,4 @@ Discord 上で利用可能なコマンド一覧です。一部のコマンドは
 
 ## Contributing
 
-バグを発見したり、新機能を提案したい場合は、[CONTRIBUTING.md](https://github.com/lilaenv/comet/blob/main/CONTRIBUTING-JP.md)を参照してください。
+バグを発見したり、新機能を提案したい場合は、[CONTRIBUTING-JP.md](https://github.com/lilaenv/comet/blob/main/CONTRIBUTING-JP.md)を参照してください。
