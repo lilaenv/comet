@@ -176,3 +176,7 @@ logs/
 
 # Ignore .prompt.yml
 .prompt.yml
+
+# Ignore cache folders
+cache/
+.cache/
