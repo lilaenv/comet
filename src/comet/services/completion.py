@@ -13,7 +13,7 @@ from openai import (
 )
 from pydantic import BaseModel
 
-from src.comet._yml import SYSTEM_PROMPT
+from src.comet._yml import GPT_SYSTEM_PROMPT
 from src.comet.cli import parse_args_and_setup_logging
 from src.comet.data.sqlite.moderation_dao import ModerationDAO
 
@@ -63,7 +63,7 @@ async def generate_completion_result(
     """
     try:
         convo = ChatHistory(messages=[*prompt, ChatMessage(role="assistant")]).render_message()
-        full_prompt = [{"role": "developer", "content": SYSTEM_PROMPT}, *convo]
+        full_prompt = [{"role": "developer", "content": GPT_SYSTEM_PROMPT}, *convo]
         completion = openai_client.chat.completions.create(
             messages=full_prompt,  # type: ignore
             model=model_tuner.model,

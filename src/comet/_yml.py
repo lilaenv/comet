@@ -7,5 +7,5 @@ with Path(__file__).parent.parent.parent.joinpath(".prompt.yml").open(encoding="
     config = yaml.safe_load(f)
 
 # system_prompt キーを取得
-CLAUDE_SYSTEM: str = config.get("claude_system")
-SYSTEM_PROMPT: str = config.get("system_prompt")
+CLAUDE_SYSTEM: str = config.get("claude_system_prompt")
+SYSTEM_PROMPT: str = config.get("gpt_system_prompt")

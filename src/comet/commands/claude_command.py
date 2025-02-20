@@ -16,7 +16,7 @@ from src.comet._env import (
     ANTHROPIC_MAX_TOKENS,
     claude_choices,
 )
-from src.comet._yml import CLAUDE_SYSTEM
+from src.comet._yml import CLAUDE_SYSTEM_PROMPT
 from src.comet.cli import parse_args_and_setup_logging
 from src.comet.client.discord_client import DiscordClient
 from src.comet.config.anthropic_model import AnthropicModelConfig
@@ -54,7 +54,7 @@ async def claude_command(  # noqa: PLR0913
     interaction: Interaction,
     prompt: str,
     model: app_commands.Choice[int],
-    sys_prompt: str = CLAUDE_SYSTEM,
+    sys_prompt: str = CLAUDE_SYSTEM_PROMPT,
     temperature: float = ANTHROPIC_DEFAULT_TEMPERATURE,
     top_p: float = ANTHROPIC_DEFAULT_TOP_P,
 ) -> None:
