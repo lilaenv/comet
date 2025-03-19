@@ -166,4 +166,4 @@ git config commit.template /path/to/.gitmessage
 
 ## Pull Request
 
-Pull Request を作成する際は必ず[テンプレート](https://github.com/lilaenv/comet/blob/main/.github/pull_requests_template.md)に従って作成してください。
+Pull Request を作成する際は必ず[テンプレート](https://github.com/lilaenv/comet/blob/main/.github/pull_request_template.md)に従って作成してください。
