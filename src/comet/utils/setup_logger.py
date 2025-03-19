@@ -5,7 +5,7 @@ from collections.abc import Mapping
 from pathlib import Path
 from typing import override
 
-from src.comet._yml import SYSTEM_PROMPT
+from src.comet._yml import CLAUDE_SYSTEM, GPT_SYSTEM
 
 
 class SensitiveSystemPromptFilter(logging.Filter):
@@ -22,7 +22,7 @@ class SensitiveSystemPromptFilter(logging.Filter):
                         if (
                             isinstance(msg, Mapping)
                             and msg.get("role") == "developer"
-                            and msg.get("content") == SYSTEM_PROMPT
+                            and msg.get("content") == CLAUDE_SYSTEM or GPT_SYSTEM
                         ):
                             msg["content"] = "<redacted>"
         return True
