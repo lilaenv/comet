@@ -22,8 +22,8 @@ class SensitiveSystemPromptFilter(logging.Filter):
                         if (
                             isinstance(msg, Mapping)
                             and msg.get("role") == "developer"
-                            and msg.get("content") == CLAUDE_SYSTEM or GPT_SYSTEM
-                        ):
+                            and msg.get("content") == CLAUDE_SYSTEM
+                        ) or GPT_SYSTEM:
                             msg["content"] = "<redacted>"
         return True
 
