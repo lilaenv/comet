@@ -1,7 +1,8 @@
-from pydantic import BaseModel
+from dataclasses import dataclass
 
 
-class ModerationDTO(BaseModel):
+@dataclass
+class ModerationDTO:
     moderation_id: str
     category_scores: dict[str, float]
     flagged: bool

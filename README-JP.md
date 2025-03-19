@@ -183,4 +183,4 @@ Discord 上で利用可能なコマンド一覧です。一部のコマンドは
 
 ## Contributing
 
-バグを発見したり、新機能を提案したい場合は、[CONTRIBUTING-JP.md](https://github.com/lilaenv/comet/blob/main/CONTRIBUTING-JP.md)を参照してください。
+バグを発見したり、新機能を提案したい場合は、[CONTRIBUTING-JP.md](https://github.com/lilaenv/comet/blob/main/docs/CONTRIBUTING-JP.md)を参照してください。

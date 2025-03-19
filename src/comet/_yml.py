@@ -8,4 +8,4 @@ with Path(__file__).parent.parent.parent.joinpath(".prompt.yml").open(encoding="
 
 # system_prompt キーを取得
 CLAUDE_SYSTEM: str = config.get("claude_system")
-SYSTEM_PROMPT: str = config.get("system_prompt")
+GPT_SYSTEM: str = config.get("gpt_system")
