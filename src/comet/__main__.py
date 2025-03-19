@@ -9,7 +9,6 @@ from .cli import parse_args_and_setup_logging
 from .client.discord_client import DiscordClient
 from .commands import *
 from .data.sqlite.access_control_dao import AccessControlDAO
-from .data.sqlite.moderation_dao import ModerationDAO
 
 
 @contextmanager
@@ -42,7 +41,6 @@ async def main() -> None:  # noqa: D103
     logger = parse_args_and_setup_logging()
 
     await AccessControlDAO().create_table()
-    await ModerationDAO().create_table()
 
     load_dotenv()
     # ここでしか使わない環境変数だよー
