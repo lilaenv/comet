@@ -104,7 +104,7 @@ uv sync
 
     Exception:
     - `commands` ディレクトリ内における `access_control` のワイルドカードインポート
-    - `commands` ディレクトリ内における直接菅家のある `services` ディレクトリ内のモジュールのインポート
+    - `commands` ディレクトリ内における直接関係のある `services` ディレクトリ内のモジュールのインポート
     - `__main__.py` における `from .commands import *`
 
 **Note**
@@ -135,7 +135,7 @@ uv sync
     </tr>
     <tr>
         <td>release</td>
-        <td>リリース前の動作確認を行う<br>このブランチに新規機能は追加しない<br>作業完了後は main へ PR を作成してマージ & タグ付け<br>バグ修正や変更をコミットしたと場合は develop にも PR を作成してマージ</td>
+        <td>リリース前の動作確認を行う<br>このブランチに新規機能は追加しない<br>作業完了後は main へ PR を作成してマージ & タグ付け<br>バグ修正や変更をコミットした場合は develop にも PR を作成してマージ</td>
     </tr>
     <tr>
         <td>develop</td>
@@ -166,4 +166,4 @@ git config commit.template /path/to/.gitmessage
 
 ## Pull Request
 
-Pull Request は必ず[テンプレート](https://github.com/lilaenv/comet/blob/main/.github/pull_requests_template.md)に従って作成してください。
+Pull Request を作成する際は必ず[テンプレート](https://github.com/lilaenv/comet/blob/main/.github/pull_requests_template.md)に従って作成してください。
