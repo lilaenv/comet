@@ -13,9 +13,8 @@ from openai import (
 )
 from pydantic import BaseModel
 
-from src.comet._yml import SYSTEM_PROMPT
+from src.comet._yml import GPT_SYSTEM
 from src.comet.cli import parse_args_and_setup_logging
-from src.comet.data.sqlite.moderation_dao import ModerationDAO
 
 from .chat_manager import ChatHistory, ChatMessage, split_into_shorter_messages
 from .moderation import get_moderation_result
@@ -25,7 +24,6 @@ if TYPE_CHECKING:
 
 logger = parse_args_and_setup_logging()
 
-moderation_dao = ModerationDAO()
 openai_client = OpenAI()
 
 
@@ -63,7 +61,7 @@ async def generate_completion_result(
     """
     try:
         convo = ChatHistory(messages=[*prompt, ChatMessage(role="assistant")]).render_message()
-        full_prompt = [{"role": "developer", "content": SYSTEM_PROMPT}, *convo]
+        full_prompt = [{"role": "developer", "content": GPT_SYSTEM}, *convo]
         completion = openai_client.chat.completions.create(
             messages=full_prompt,  # type: ignore
             model=model_tuner.model,
@@ -75,10 +73,9 @@ async def generate_completion_result(
 
         # ------ moderate the assistant's responses ------
         if completion_result is not None:
-            moderation_result = get_moderation_result(completion_result)
+            get_moderation_result(completion_result)
         else:
             logger.exception("completion_result is empty.")
-        await moderation_dao.insert(moderation_result)
         return CompletionResult(
             status=CompletionStatus.SUCCESS, completion_result=completion_result
         )

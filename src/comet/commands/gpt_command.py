@@ -31,7 +31,7 @@ logger = parse_args_and_setup_logging()
 access_control_dao = AccessControlDAO()
 discord_client = DiscordClient.get_instance()
 
-GPT_THREAD_PREFIX: Literal["g:"] = "g:"
+GPT_THREAD_PREFIX: Literal["gpt>>"] = "gpt>>"
 ADVANCED_USER_IDS: list[int] = access_control_dao.fetch_user_ids_by_access_type(
     access_type="advanced",
 )

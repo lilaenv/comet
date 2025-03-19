@@ -3,55 +3,6 @@
         "editor.defaultFormatter": "charliermarsh.ruff",
         "editor.formatOnSave": true,
     },
-    "_editor.semanticTokenColorCustomizations": {
-        "rules": {
-            "function.declaration": {
-                "bold": false
-            },
-            "method.declaration": {
-                "bold": false
-            },
-            "parameter": {
-                "fontStyle": ""
-            },
-            "selfParameter": {
-                "fontStyle": ""
-            },
-            "variable": {
-                "fontStyle": ""
-            }
-        }
-    },
-    "_editor.tokenColorCustomizations": {
-        "textMateRules": [
-            {
-                "scope": [
-                    "comment",
-                    "comment.block.documentation",
-                    "comment.line.double-slash",
-                    "entity.name.function",
-                    "keyword",
-                    "keyword.control.flow.python",
-                    "keyword.control.import.python",
-                    "keyword.operator",
-                    "markup.fenced_code.block.markdown",
-                    "markup.inline.raw.string.markdown",
-                    "meta.function.parameters.python",
-                    "meta.link",
-                    "meta.member.access.python",
-                    "meta.paragraph.markdown",
-                    "source.python",
-                    "storage.type",
-                    "string",
-                    "variable",
-                    "variable.parameter"
-                ],
-                "settings": {
-                    "fontStyle": ""
-                },
-            }
-        ]
-    },
     "files.exclude": {
         "**/.DS_Store": false,
         "**/.git": false,

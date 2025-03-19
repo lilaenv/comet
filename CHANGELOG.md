@@ -1,5 +1,23 @@
 # Changelog
 
+## 1.1.0 (2025-03-19)
+
+**Fixes**
+
+- 変数の追加、修正
+
+**Docs**
+
+- 誤字や URL の修正
+
+**Chore**
+
+- Makefile の追加
+
+**Delete**
+
+- moderation に関する DAO と関連するコードを削除
+
 ## 1.0.0 (2025-02-19)
 
 **Features**
