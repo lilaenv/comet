@@ -1,0 +1,19 @@
+# dev
+.dev/
+
+# environment
+.venv/
+.env
+
+# macOS-specific files
+.DS_Store
+
+# mypy
+.mypy_cache/
+
+# python-generated files
+__pycache__/
+*.py[oc]
+
+# ruff
+.ruff_cache/
