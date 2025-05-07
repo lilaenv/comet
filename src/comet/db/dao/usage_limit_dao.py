@@ -1,4 +1,5 @@
 import datetime
+from typing import cast
 
 import aiosqlite
 
@@ -97,6 +98,26 @@ class UsageLimitDAO(SQLiteDAOBase):
         finally:
             await conn.close()
 
+    async def get_default_daily_limit(self) -> int:
+        """Get the default daily usage limit for regular users.
+
+        Returns
+        -------
+        int
+            Default maximum number of API calls allowed per day.
+            Returns 10 if no default limit is set.
+        """
+        conn = await aiosqlite.connect(super().DB_NAME)
+        try:
+            query = """
+            SELECT daily_limit FROM usage_limit WHERE user_id = 0
+            """
+            cursor = await conn.execute(query)
+            row = await cursor.fetchone()
+            return cast("int", row[0] if row else 10)  # Default limit is 10
+        finally:
+            await conn.close()
+
     async def increment_usage_count(self, user_id: int) -> None:
         """Increment the usage count for a user on the current day.
 
@@ -116,6 +137,36 @@ class UsageLimitDAO(SQLiteDAOBase):
             """
             await conn.execute(query, (user_id, today))
             await conn.commit()
+        finally:
+            await conn.close()
+
+    async def get_user_daily_limit(self, user_id: int) -> int:
+        """Get daily usage limit for a user.
+
+        Parameters
+        ----------
+        user_id : int
+            ID of the user to get the limit for.
+
+        Returns
+        -------
+        int
+            Maximum number of API calls allowed per day.
+            Returns 10 as default if no limit is set.
+        """
+        conn = await aiosqlite.connect(super().DB_NAME)
+        try:
+            query = """
+            SELECT daily_limit FROM usage_limit WHERE user_id = ?
+            """
+            cursor = await conn.execute(query, (user_id,))
+            row = await cursor.fetchone()
+
+            if row:
+                return cast("int", row[0])
+
+            # If no user-specific limit is set, get the default limit
+            return await self.get_default_daily_limit()
         finally:
             await conn.close()
 
