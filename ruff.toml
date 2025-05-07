@@ -1,12 +1,8 @@
 # File patterns to include in linting
-include = [ "*.py" ]
+include = ["*.py"]
 
 # File patterns to exclude from linting
-exclude = [
-    ".git/",
-    ".mypy_cache/",
-    ".venv/",
-]
+exclude = [".git/", ".mypy_cache/", ".venv/"]
 
 # The number of spaces per indentation level
 indent-width = 4
@@ -30,22 +26,23 @@ skip-magic-trailing-comma = false
 
 [lint]
 # Enable all linting rules
-select = [ "ALL" ]
+select = ["ALL"]
 
 # Disable specific linting rules
 ignore = [
-    "D100", # Allow missing docstrings in public modules
-    "D104", # Allow missing docstrings in public packages
-    "D107", # Allow missing docstrings in __init__ methods
-    "D203", # Ignored in favor of D211 to enforce no blanck line before class
-    "D213", # Ignored in favor of D212 to allow a blanck line after the summary in multi-line docstrings
-    "D413", # Allow missing blanck lines after the last section of a multi-line docstring
-    "F403", # Allow wildcard imports for flexibility in certain contexts
+    "D100",   # Allow missing docstrings in public modules
+    "D104",   # Allow missing docstrings in public packages
+    "D107",   # Allow missing docstrings in __init__ methods
+    "D203",   # Ignored in favor of D211 to enforce no blanck line before class
+    "D213",   # Ignored in favor of D212 to allow a blanck line after the summary in multi-line docstrings
+    "D413",   # Allow missing blanck lines after the last section of a multi-line docstring
+    "ERA001", # Allow comment-out code
+    "F403",   # Allow wildcard imports for flexibility in certain contexts
     "PGH003", # Allow using `type: ignore`
 ]
 
 # Allow fix for all enabled rules (when `--fix` is provided)
-fixable = [ "ALL" ]
+fixable = ["ALL"]
 
 unfixable = [
     "T201", # Prevents auto-fixing print statements
